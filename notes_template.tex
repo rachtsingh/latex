@@ -1,0 +1,41 @@
+%--------------------------------------------------------
+%    Wentong Zhang Notes Template
+%--------------------------------------------------------
+
+\documentclass[12pt]{article}
+
+% Load custom package with options.
+\usepackage[wsectnum, wlibertine, wboxthm, wheader, wnotes]{zhang-wentong_1-1}
+
+% TODO: see how to incorporate this into package without messing stuff up (is it even worth it?)
+% Makes table of contents on same page without title.
+\makeatletter
+\newcommand*{\toccontents}{\@starttoc{toc}}
+\makeatother
+
+% Add more packages here if necessary.
+
+% Header, change to desired text.
+\title{<Title>}
+\author{<Your Name>}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+% Use \toccontents when do not desire title "Contents".
+\tableofcontents
+%\toccontents
+
+\section{Section 1}
+\label{sec1}
+
+This is a template \hyperref[sec1]{link to section 1}.
+
+Here is a sample equation.
+
+\begin{equation}
+x^2 = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}.
+\end{equation}
+\end{document}

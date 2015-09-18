@@ -1,0 +1,364 @@
+%--------------------------------------------------------
+%    Wentong Zhang LaTeX Package
+%
+%    Contents of Package:
+%    1. Options Managing
+%    2. Packages 
+%    3. Formatting: Page Setup and Theorems
+%    4. Commands and Operators
+%
+%    TODO:
+%    1. Figure out how to only enter font = (desired font) for font choice.
+%    4. Book formatting.
+%    
+%--------------------------------------------------------
+
+\ProvidesPackage{zhang-wentong_1-1}
+\RequirePackage{kvoptions}
+
+%--------------------------------------------------------
+%    1. Options Managing
+%--------------------------------------------------------
+
+% First, declare options. Trick taken from Evan Chen: inserted w before options to ensure no collisions.
+
+\SetupKeyvalOptions{
+      family=zhang,
+      prefix=zhang@
+    }
+
+% Font options.
+% \DeclareStringOption[default]{wfont}
+\DeclareBoolOption{wlibertine}
+\DeclareBoolOption{wgaramond}
+\DeclareBoolOption{wmathpazo}
+
+
+% Theorem options.
+\DeclareBoolOption{wsectnum}
+\DeclareBoolOption{wboxthm}
+
+% Formatting options.
+\DeclareBoolOption[true]{wformat}
+\DeclareBoolOption{wboxlink}
+\DeclareBoolOption{wheader}
+\DeclareBoolOption{warticle}
+\DeclareBoolOption{wnotes}
+\DeclareBoolOption{wbook}
+
+\DeclareStringOption[blue]{wlinkcolor}[blue]
+\DeclareStringOption[blue]{wboxcolor}[blue]
+
+\ProcessKeyvalOptions{zhang}
+
+%--------------------------------------------------------
+%    2. Packages
+%--------------------------------------------------------
+
+% Packages for math fonts and symbols
+\usepackage{amsfonts,amsthm,amssymb,amsmath,amscd,euscript}
+\usepackage{manfnt}
+\usepackage{amsxtra}
+
+% Useful commenting tool.
+\usepackage{comment}
+
+% For logic.
+\usepackage{ifthen}
+
+% Lipsum dummy text generator.
+\usepackage{lipsum}
+
+% For fixing title shenanigans.
+\usepackage{titling}
+
+% For calculations within LaTeX.
+\usepackage{calc}
+
+% Add more color to your day.
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{color}
+
+% Good for drawing diagrams (yes, even commutative ones!).
+\usepackage[all]{xy}
+
+% Use for inserting graphics and math symbols.
+\usepackage{graphicx}
+
+% For creating hyperlinks and other links. To give boxes instead of colored links, turn on wboxedlinks.
+\usepackage{hyperref}
+
+\ifzhang@wboxlink
+	\hypersetup{linkcolor=\zhang@wlinkcolor ,citecolor=\zhang@wlinkcolor ,urlcolor=black,linkbordercolor=\zhang@wlinkcolor}
+	
+\else
+	\hypersetup{colorlinks=true,linkcolor=\zhang@wlinkcolor ,citecolor=\zhang@wlinkcolor ,urlcolor=black,linkbordercolor=\zhang@wlinkcolor}
+\fi
+\usepackage[nameinlink]{cleveref}
+
+% Allow verbatim environment.
+\usepackage{verbatim}
+
+% Easy way to box paragraph in document.
+\usepackage{framed}
+
+% Set spacing sometimes.
+\usepackage{setspace}
+
+% For making lists in paragraph form (first seen from Evan Chen).
+\usepackage{paralist}
+
+% Useful for todos in a document.
+\usepackage{todonotes}
+
+% For truncating text.
+\usepackage{truncate}
+
+% For fonts.
+\usepackage{lmodern}
+
+%--------------------------------------------------------
+%    3. Formatting: Page Setup and Theorems
+%--------------------------------------------------------
+
+% Use fancyhdr for formatting of file.
+\usepackage{fancyhdr}
+
+% Font adaptations as necessary.
+\ifzhang@wlibertine
+	\usepackage{libertine}
+	\usepackage{mweights}
+	\usepackage[bigdelims,cmintegrals,libertine,vvarbb]{newtxmath}
+	\usepackage{zi4}
+\fi
+
+\ifzhang@wgaramond
+	% For Linux, a bit finnicky.
+	\fontfamily{zgmx}
+	\usepackage{garamondx}
+	\usepackage[garamondx,cmbraces, bigdelims]{newtxmath}
+\fi
+
+\ifzhang@wmathpazo
+	\usepackage[sc]{mathpazo}
+\fi
+
+% Theorem settings. Many lines are excerpted from Evan Chen's package: http://www.mit.edu/~evanchen/handouts/evan.sty
+\theoremstyle{plain}
+
+% Change roundbox and stuff 
+\ifzhang@wboxthm
+	\usepackage{thmtools}
+	\usepackage[framemethod=TikZ]{mdframed}
+
+	\mdfdefinestyle{roundbox}{%
+		roundcorner = 5pt,
+		linewidth=1pt,
+		skipabove=12pt,
+		skipbelow=2pt,
+		innerbottommargin=9pt,
+		linecolor=\zhang@wboxcolor,
+		nobreak=true
+	}
+	\declaretheoremstyle[
+		headfont=\bfseries,
+		mdframed={style=roundbox},
+		headpunct={\\[3pt]},
+		postheadspace={0pt}
+	]{roundbox}
+
+	\mdfdefinestyle{plainbox}{%
+		linewidth=0.5pt,
+		skipabove=12pt,
+		skipbelow=2pt,
+		innertopmargin=4pt,
+		innerbottommargin=8pt,
+		nobreak=true,
+	}
+	\declaretheoremstyle[
+		headfont=\bfseries,
+		mdframed={style=plainbox},
+		headpunct={\\[3pt]},
+		postheadspace={0pt},
+	]{plainbox}
+
+	\ifzhang@wsectnum
+		\declaretheorem[style=roundbox,name=Theorem,numberwithin=section]{theorem}
+	\else
+		\declaretheorem[style=roundbox,name=Theorem]{theorem}
+	\fi
+	
+	\declaretheorem[style=roundbox,name=Lemma,sibling=theorem]{lem}
+	\declaretheorem[style=roundbox,name=Proposition,sibling=theorem]{prop}
+	\declaretheorem[style=roundbox,name=Corollary,sibling=theorem]{cor}
+\else
+	\ifzhang@wsectnum
+		\newtheorem{theorem}{Theorem}[section]
+	\else
+		\newtheorem{theorem}{Theorem}
+	\fi
+
+	\newtheorem{lem}[theorem]{Lemma}
+	\newtheorem{prop}[theorem]{Proposition}
+	\newtheorem{cor}[theorem]{Corollary}
+	\newtheorem{conj}[theorem]{Conjecture}
+	\newtheorem*{thm*}{Theorem}
+	\newtheorem*{lem*}{Lemma}
+	\newtheorem*{prop*}{Proposition}
+	\newtheorem*{cor*}{Corollary}
+	\newtheorem*{conj*}{Conjecture}
+\fi
+
+% Definition-like theorem environments.
+\theoremstyle{definition}
+
+\ifzhang@wboxthm
+	\declaretheorem[style=plainbox,name=Example,sibling=theorem]{eg}
+	\declaretheorem[style=plainbox,name=Example,numbered=no]{eg*}
+\else
+	\newtheorem{eg}[theorem]{Example}
+	\newtheorem*{eg*}{Example}
+\fi
+
+% From Evan Chen.
+\ifzhang@wboxthm
+	\declaretheorem[style=roundbox,name=Algorithm,sibling=theorem]{alg}
+\else
+	\newtheorem{alg}[theorem]{Algorithm}
+	\newtheorem*{alg*}{Algorithm}
+\fi
+
+\newtheorem{answer}[theorem]{Answer}
+\newtheorem{case}[theorem]{Case}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{defn}[theorem]{Definition}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{ques}[theorem]{Question}
+\newtheorem{problem}[theorem]{Problem}
+
+\newtheorem*{answer*}{Answer}
+\newtheorem*{case*}{Case}
+\newtheorem*{claim*}{Claim}
+\newtheorem*{defn*}{Definition}
+\newtheorem*{ex*}{Exercise}
+\newtheorem*{fact*}{Fact}
+\newtheorem*{joke*}{Joke}
+\newtheorem*{ques*}{Question}
+\newtheorem*{prob*}{Problem}
+\newtheorem*{note*}{Note}
+
+% Remark-style theorems
+\theoremstyle{remark}
+\newtheorem{rmk}{Remark}
+\newtheorem*{rmk*}{Remark}
+
+%--------------------------------------------------------
+
+% Formatting changes, if desired.
+\ifzhang@wformat
+	\usepackage{fancyhdr}
+	\usepackage[margin = 1in]{geometry}
+	
+	\ifzhang@wheader
+		% Standard groundwork for formatting
+		\geometry{includeheadfoot, bottom = 0.75in}
+		\pagestyle{fancy}
+		\setlength{\headheight}{15pt}
+		\setlength{\droptitle}{-1in}
+		
+		% For articles.
+		\ifzhang@warticle
+			\chead{\ifthenelse{\value{page}=1}{}{\thetitle}}
+			\lhead{\ifthenelse{\value{page}=1}{}{\truncate{2in}{\nouppercase{\leftmark}}}}
+			\rhead{\ifthenelse{\value{page}=1}{}{\thepage}}
+			% Removes page numbers at bottom.
+			\cfoot{}
+		\fi
+		
+		% For notes.
+		\ifzhang@wnotes
+			\chead{\ifthenelse{\value{page}=1}{}{\thetitle}}			
+			\lhead{\ifthenelse{\value{page}=1}{}{\truncate{2in}{\nouppercase{\leftmark}}}}
+			\rhead{\ifthenelse{\value{page}=1}{}{Wentong Zhang}}
+		\fi
+		
+	\else
+		\setlength{\droptitle}{0.5in}
+	\fi
+	
+	\ifzhang@wbook
+		% todo
+	\fi
+\fi
+
+%--------------------------------------------------------
+%    4. Commands and Operators
+%--------------------------------------------------------
+
+% To abbreviate.
+\newcommand{\nc}{\newcommand}
+\nc{\rc}{\renewcommand}
+\nc{\on}{\operatorname}
+
+% Thanks to Evan Chen for these commands.
+\nc{\cbrt}[1]{\sqrt[3]{#1}}
+\nc{\floor}[1]{\left\lfloor #1 \right\rfloor}
+\nc{\ceiling}[1]{\left\lceil #1 \right\rceil}
+\nc{\mailto}[1]{\href{mailto:#1}{\texttt{#1}}}
+\nc{\ol}[1]{\overline{#1}}
+\nc{\ul}[1]{\underline{#1}}
+\nc{\eps}{\varepsilon}
+\nc{\st}{^{\text{st}}}
+\nc{\nd}{^{\text{nd}}}
+\nc{\rd}{^{\text{rd}}}
+\nc{\dg}{^\circ}
+\nc{\ii}{\item}
+\nc{\surjto}{\twoheadrightarrow}
+\nc{\injto}{\hookrightarrow}
+
+% Other abbreviations.
+\nc{\inv}{^{\!-\!1}}
+\nc{\mcap}{\mathbin{\scalebox{1.5}{\ensuremath{\cap}}}}
+\nc{\mcup}{\mathbin{\scalebox{1.5}{\ensuremath{\cup}}}}
+\nc{\tst}{ such that }
+\nc{\wt}{\widetilde}
+
+\nc{\Hom}{\on{Hom}} % homomorphism
+\nc{\Aut}{\on{Aut}} % automorphism
+\nc{\End}{\on{End}} % endomorphism
+\nc{\ord}{\on{ord}} % order
+\nc{\im}{\on{Im}} % image
+\nc{\Mat}{\on{Mat}} % matrix
+\nc{\coker}{\on{coker}} % cokernel
+\nc{\ev}{\on{ev}} % evaluaton
+\nc{\Tr}{\on{Tr}} % trace
+\nc{\Set}{\on{Set}} % set
+\newcommand{\normal}{\triangleleft}
+\newcommand{\normaleq}{\trianglelefteq}
+
+% For number systems.
+\nc{\BR}{\mathbb R}
+\nc{\BC}{\mathbb C}
+\nc{\BQ}{\mathbb Q}
+\nc{\BZ}{\mathbb Z}
+\nc{\BN}{\mathbb N}
+\nc{\BS}{\mathbb S}
+\nc{\BF}{\mathbb F}
+
+\nc{\bC}{{\mathbf C}}
+\nc{\bc}{{\mathbf c}}
+\nc{\bD}{{\mathbf D}}
+\nc{\bd}{{\mathbf d}}
+\nc{\bE}{{\mathbf E}}
+\nc{\be}{{\mathbf e}}
+\nc{\bF}{{\mathbf F}}
+\nc{\bff}{{\mathbf f}}
+\nc{\CE}{\mathcal E} % for sigma-algebras
+
+% Definitions.
+\nc{\defeq}{\vcentcolon=}
+\nc{\eqdef}{=\vcentcolon}
+
+% Abbreviation for tensors.
+\nc{\tensor}[3]{#1 \underset{#2}\otimes #3}

@@ -1,0 +1,127 @@
+%!TEX program = xelatex
+%==============================================================================
+% Homework X, CSX (Fall 2015)
+%==============================================================================
+\newcommand{\thishw}{\bf Homework \#}
+\newcommand{\myname}{Your Name}
+\newcommand{\mylogin}{<username>@college.harvard.edu}
+
+%==============================================================================
+% Formatting parameters.
+%==============================================================================
+
+\documentclass[11pt]{article} % 10pt article, want AMS fonts.
+\makeatletter					% Make '@' accessible.
+\pagestyle{myheadings}				% We do our own page headers.
+\def\@oddhead{\bf <CS\#\#\#> - \thishw\hfill \myname\, (\mylogin)} % Here they are.
+\def\thesection{Problem\hskip-1em\ }		% Section headlines.
+\oddsidemargin=0in				% Left margin minus 1 inch.
+\evensidemargin=0in				% Same for even-numbered pages.
+\textwidth=6.5in				% Text width (8.5in - margins).
+\topmargin=0in					% Top margin minus 1 inch.
+\headsep=0.3in					% Distance from header to body.
+\textheight=8in					% Body height (incl. footnotes)
+\skip\footins=4ex				% Space above first footnote.
+\hbadness=10000					% No "underfull hbox" messages.
+\makeatother					% Make '@' special again.
+
+%\usepackage{newalg}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{latexsym}
+\usepackage{color}
+\usepackage{fontspec}
+% \usepackage{minted}
+\usepackage{mathtools}
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+% \setsansfont{Calibri}
+% \setmonofont{Consolas}
+% \usepackage{psfig}
+
+%==============================================================================
+% Macros.
+%==============================================================================
+\newcommand{\problem}[1]{\section{#1}}		% Problem.
+\newcommand{\new}[1]{{\em #1\/}}		% New term (set in italics).
+\newcommand{\set}[1]{\{#1\}}			% Set (as in \set{1,2,3})
+\newcommand{\setof}[2]{\{\,{#1}|~{#2}\,\}}	% Set (as in \setof{x}{x > 0})
+\newcommand{\C}{\mathbb{C}}	                % Complex numbers.
+\newcommand{\N}{\mathbb{N}}                     % Positive integers.
+\newcommand{\Q}{\mathbb{Q}}                     % Rationals.
+\newcommand{\R}{\mathbb{R}}                     % Reals.
+\newcommand{\Z}{\mathbb{Z}}                     % Integers.
+\newcommand{\compl}[1]{\overline{#1}}		% Complement of 
+\newcommand{\on}{\operatorname}
+\newcommand{\Var}{\on{\bf Var}}
+\newcommand{\E}{\on{\bf E}}
+\newenvironment{statement}{\par\color{red}}{\par\medskip}
+% ...            
+
+%==============================================================================
+% Title.
+%==============================================================================
+
+\begin{document}
+\centerline{\LARGE\thishw}
+
+\problem{1.1}
+\noindent{(a)} This is an example problem subpart
+
+\smallskip
+
+\noindent{(b)} Here's another problem subpart
+
+\smallskip
+
+\noindent{(c)} Make sure to separate the parts via \texttt{\\smallskip}.
+
+\problem{1.2}
+
+\noindent{(a)} Here's another problem.
+
+\end{document}
+
+% Here's an example of a code sample if you ever need it.
+%
+% \renewcommand{\theFancyVerbLine}{
+%   \sffamily\textcolor[rgb]{0.5,0.5,0.5}{\scriptsize\arabic{FancyVerbLine}}}
+%   \begin{minted}[mathescape,
+%                linenos,
+%                numbersep=5pt,
+%                gobble=3,
+%                frame=lines,
+%                framesep=2mm]{python}
+
+% 	import random
+% 	from decimal import Decimal, getcontext, ROUND_FLOOR
+% 	getcontext().prec = 50 # high precision unnecessary, but also safer
+% 	getcontext().rounding = ROUND_FLOOR # interesting way of rounding from StackOverflow
+% 	import matplotlib.pyplot as plt
+
+% 	BIGNUM = 100000000000000 # as big as you want
+% 	ITERATIONS = 10000
+
+% 	def get_random_variable(k):
+% 	    u = Decimal(random.randrange(BIGNUM))/BIGNUM
+% 	    return (((1/(u)) ** (1/Decimal(k))).to_integral_exact())
+
+% 	plots = []
+
+% 	for i in range(7):
+% 	    k = 3 # change as necessary
+% 	    values = []
+% 	    averages = []
+% 	    running_sum = 0
+% 	    for i in range(ITERATIONS):
+% 	        values.append(get_random_variable(k))
+% 	        running_sum += values[-1]
+% 	        averages.append(running_sum/(i + 1))
+	    
+% 	    plots.append(averages)
+
+% 	colors = ["green", "blue", "red", "purple", "brown", "yellow", "orange"]
+% 	for i in range(7):
+% 	    plt.plot(plots[i], color=colors[i])
+
+% \end{minted}
